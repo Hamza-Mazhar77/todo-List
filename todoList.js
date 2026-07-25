@@ -1,5 +1,11 @@
 // when loading the page, load from local storage.
-const todoList = JSON.parse(localStorage.getItem('todoList')) || [];
+//const todoList = JSON.parse(localStorage.getItem('todoList')) || [];
+
+let todoList = JSON.parse(localStorage.getItem('todoList'));
+
+if (!Array.isArray(todoList)) {
+  todoList = [];
+}
 
 renderTodoList();
 
@@ -7,8 +13,8 @@ function renderTodoList() {
   // here regular function is prefered
   let todoListHtml = "";
 
-  todoList.forEach((todoObject, index) => {
-    // here arrow function is prefered
+  for (let i = 0; i < todoList.length; i++) {
+    const todoObject = todoList[i];
     const { name, dueDate } = todoObject;
 
     const html = `
@@ -19,7 +25,7 @@ function renderTodoList() {
     `;
 
     todoListHtml += html;
-  });
+  }
 
   document.querySelector(".todo").innerHTML = todoListHtml;
 
@@ -27,6 +33,7 @@ function renderTodoList() {
       deleteButton.addEventListener("click", () => {
         todoList.splice(index, 1);
         renderTodoList();
+        localStorage.setItem('todoList', JSON.stringify(todoList));
       });
     });
 }
@@ -52,6 +59,5 @@ function addTodo() {
 
   renderTodoList();
 
-  //whenever we update a todolist save it in local storage
-  localStorage.setItem('todoList', JSON.stringify('todoList'));
+  localStorage.setItem('todoList', JSON.stringify(todoList));
 }
