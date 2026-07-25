@@ -1,4 +1,5 @@
-const todoList = [];
+// when loading the page, load from local storage.
+const todoList = JSON.parse(localStorage.getItem('todoList')) || [];
 
 renderTodoList();
 
@@ -50,4 +51,7 @@ function addTodo() {
   inputElement.value = ""; //to reset textbox after adding
 
   renderTodoList();
+
+  //whenever we update a todolist save it in local storage
+  localStorage.setItem('todoList', JSON.stringify('todoList'));
 }
